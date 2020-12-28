@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // validando cpf
+      const cpfs = [
+        "248.714.736-94",
+        "883.296.382-51",
+        "221.593.668-11",
+        "780.111.247-49",
+      ];
+
+      function first9Digits(cpf) {
+        let digits = [],
+          returnVector = [];
+
+        for (const caracter of cpf)
+          if (caracter.match(/\d/)) digits.push(caracter);
+
+        for (let i = 0; i < 9; i++) returnVector.push(parseInt(digits[i]));
+
+        return returnVector;
+      }
+
+      function firstDigit(_first9Digits) {
+        const step1 = _first9Digits.map((value, i) => value * (10 - i));
+
+        return step2Onwards(step1);
+      }
+
+      function secondDigit(_first9Digits, firstDigit) {
+        const digits = [..._first9Digits, firstDigit];
+        const step1 = digits.map((digit, i) => digit * (11 - i));
+
+        return step2Onwards(step1);
+      }
+
+      function step2Onwards(step1) {
+        const step2 = step1.reduce((acc, value) => acc + value, 0),
+          step3 = step2 % 11,
+          step4 = 11 - step3;
+
+        return step4 > 9 ? 0 : step4;
+      }
+
+      function cpfValidation(cpf) {
+        // Primeiro e segundo dígitos do cpf passado
+        const digit1Cpf = parseInt(cpf.match(/(?<=\-)\d/g)),
+          digit2Cpf = parseInt(cpf.match(/\d$/g));
+
+        // Primeiro e segundo dígitos resultantes do cálculo de validação
+        const digit1 = firstDigit(first9Digits(cpf)),
+          digit2 = secondDigit(first9Digits(cpf), digit1);
+
+        digit1Cpf === digit1 && digit2Cpf === digit2
+          ? console.log("CPF válido")
+          : console.log("CPF inválido");
+      }
+
+      const looksLikeACpf = (cpf) =>
+        cpf.match(/^(?!^(\d)\1{2})(\d{3}\.){2}\d{3}-\d{2}/);
+
+      const dealCpf = (cpf) => {
+        looksLikeACpf(cpf)
+          ? cpfValidation(cpf)
+          : console.log(
+              "O CPF digitado não está no formato adequado. Ex: 123.345.678-91"
+            );
+      };
+
+      // cpfs.forEach((cpf) => dealCpf(cpf));
+      dealCpf(cpfs[0]);
+    </script>
+  </body>
+</html>
