@@ -15,6 +15,11 @@
         "780.111.247-49",
       ];
 
+      const countdownMultiplication = (decrementedFactor) => (
+        permanentFactor,
+        decrementor
+      ) => permanentFactor * (decrementedFactor - decrementor);
+
       function first9Digits(cpf) {
         let digits = [],
           returnVector = [];
@@ -28,19 +33,29 @@
       }
 
       function firstDigit(_first9Digits) {
-        const step1 = _first9Digits.map((value, i) => value * (10 - i));
+        // Multiplicar cada um dos nove primeiros dígitos pelo respectivo número
+        // de uma contagem regressiva inicianto em dez e terminando em 2.
+        const step1 = _first9Digits.map(countdownMultiplication(10));
 
         return step2Onwards(step1);
       }
 
       function secondDigit(_first9Digits, firstDigit) {
+        // Multiplicar cada um dos nove primeiros dígitos e o primeiro gígito
+        // obtivo pelos seus respectivos números de uma contagem regressiva ini-
+        // cianto em onze e terminando em dois.
         const digits = [..._first9Digits, firstDigit];
-        const step1 = digits.map((digit, i) => digit * (11 - i));
+        const step1 = digits.map(countdownMultiplication(11));
 
         return step2Onwards(step1);
       }
 
       function step2Onwards(step1) {
+        // Passo 2: soma dos números obtidos no passo 1;
+        // Passo 3: resto da divisão entre o passo 2 e o total
+        // de números de um CPF;
+        // Passo 4: subtração entre o total de números de um CPF
+        // e o passo 3;
         const step2 = step1.reduce((acc, value) => acc + value, 0),
           step3 = step2 % 11,
           step4 = 11 - step3;
@@ -50,14 +65,14 @@
 
       function cpfValidation(cpf) {
         // Primeiro e segundo dígitos do cpf passado
-        const digit1Cpf = parseInt(cpf.match(/(?<=\-)\d/g)),
-          digit2Cpf = parseInt(cpf.match(/\d$/g));
+        const digit1Argum = parseInt(cpf.match(/(?<=\-)\d/g)),
+          digit2Argum = parseInt(cpf.match(/\d$/g));
 
         // Primeiro e segundo dígitos resultantes do cálculo de validação
         const digit1 = firstDigit(first9Digits(cpf)),
           digit2 = secondDigit(first9Digits(cpf), digit1);
 
-        digit1Cpf === digit1 && digit2Cpf === digit2
+        digit1Argum === digit1 && digit2Argum === digit2
           ? console.log("CPF válido")
           : console.log("CPF inválido");
       }
@@ -69,7 +84,7 @@
         looksLikeACpf(cpf)
           ? cpfValidation(cpf)
           : console.log(
-              "O CPF digitado não está no formato adequado. Ex: 123.345.678-91"
+              "O CPF digitado não está no formato adequado. Ex: 123.345.678-91."
             );
       };
 
