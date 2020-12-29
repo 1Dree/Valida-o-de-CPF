@@ -33,7 +33,7 @@
       }
 
       function firstDigit(_first9Digits) {
-        // Multiplicar cada um dos nove primeiros dígitos pelo respectivo número
+        // Multiplicar cada um dos nove primeiros dígitos pelos respectivos números
         // de uma contagem regressiva inicianto em dez e terminando em 2.
         const step1 = _first9Digits.map(countdownMultiplication(10));
 
@@ -42,7 +42,7 @@
 
       function secondDigit(_first9Digits, firstDigit) {
         // Multiplicar cada um dos nove primeiros dígitos e o primeiro gígito
-        // obtivo pelos seus respectivos números de uma contagem regressiva ini-
+        // obtido pelos seus respectivos números de uma contagem regressiva ini-
         // cianto em onze e terminando em dois.
         const digits = [..._first9Digits, firstDigit];
         const step1 = digits.map(countdownMultiplication(11));
@@ -54,8 +54,7 @@
         // Passo 2: soma dos números obtidos no passo 1;
         // Passo 3: resto da divisão entre o passo 2 e o total
         // de números de um CPF;
-        // Passo 4: subtração entre o total de números de um CPF
-        // e o passo 3;
+        // Passo 4: subtração entre o total de números de um CPF e o passo 3;
         const step2 = step1.reduce((acc, value) => acc + value, 0),
           step3 = step2 % 11,
           step4 = 11 - step3;
